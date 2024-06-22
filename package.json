@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -n next,python -c black,green \"next dev\" \"cd python && uvicorn index:app --host 0.0.0.0 --port 80\"",
+    "dev": "concurrently -n next,python -c black,green \"next dev\" \"cd python && uvicorn index:app --host 0.0.0.0 --port 80 --reload --reload-dir .\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "axios": "^1.7.2",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18"
