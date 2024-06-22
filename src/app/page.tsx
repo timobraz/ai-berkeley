@@ -2,7 +2,8 @@ import React, { useState } from "react";
 
 export default function Home() {
   return (
-    <div>
+    <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px]">
+      {" "}
       <nav className="absolute w-full p-4 bg-transparent flex items-center justify-between">
         {/* set div to the very right */}
         <div className="flex items-center">
@@ -21,7 +22,7 @@ export default function Home() {
                     </label>
                     <input id="file-input" type="file" onChange={handleFileChange} className="hidden"></input>
                 </Button> */}
-          <h2 className="mb-4 text-lg font-bold">About</h2>
+          <h2 className="mb-4 text-lg font-bold"></h2>
         </div>
       </nav>
       <div>
@@ -32,9 +33,12 @@ export default function Home() {
         <div className="flex min-h-screen items-center justify-center space-y-5 text-center pb-32">
           <div className="pb-8 w-full max-w-2xl space-y-4">
             <div className="py-8 space-y-2">
-              <h1 className="mb-4 text-3xl font-bold">Transforming ESG Insights into Action </h1>
+              <h1 className="mb-4 text-3xl font-bold">
+                Transforming ESG Insights into Action{" "}
+              </h1>
               <p className="text-gray-500 md:w-3/4 md:mx-auto lg:w-1/2 dark:text-gray-400">
-                Input an ESG (Environmental, Social, and Governance) report for analysis and to talk to a chatbot.
+                Input an ESG (Environmental, Social, and Governance) report for
+                analysis and to talk to a chatbot.
               </p>
             </div>
           </div>
