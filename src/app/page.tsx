@@ -4,9 +4,9 @@ import { Navbar } from "./components/Navbar";
 
 export default function Home() {
   return (
-    <div className="inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px] min-h-screen">
+    <div className="inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px] min-h-screen snap-y  overflow-y-scroll  snap-mandatory ">
       <Navbar></Navbar>
-      <div className="px-10 py-28 h-screen">
+      <div className="px-10 py-28 h-screen snap-start">
         <div className="relative flex  items-center justify-center space-y-5 h-full bg-green-dots rounded-xl">
           <div className="pb-8 w-full max-w-2xl space-y-4 ">
             <div className="py-8 space-y-2 text-left">
@@ -29,7 +29,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="h-screen flex px-32 flex-col gap-8">
+      <div className="h-screen flex px-32 flex-col gap-8 snap-start py-32">
         <div className="flex w-full items-center flex-col gap-4">
           <h1 className="text-7xl  font-normal">Generate Insights With</h1>
           <h4 className="text-xl text-gray-500 font-medium">Search a company or upload an ESG report</h4>
