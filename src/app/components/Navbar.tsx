@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const Navbar = () => {
   return (
-    <nav className="absolute w-full p-9 px-[55px] bg-transparent flex items-center justify-between">
+    <nav className="z-50 fixed w-full p-9 px-[55px] bg-transparent flex items-center justify-between">
       {/* set div to the very right */}
       <div className="flex items-center justify-between flex-row w-full">
         {/* <Button variant="link" className=' font-black'>
