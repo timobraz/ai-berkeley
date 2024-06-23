@@ -31,6 +31,7 @@ def get_by_ticker(ticker: str):
     for data in metadata:
         if data["ticker"] == ticker:
             output.append(data)
+    output = sorted(output, key=lambda x: x["year"], reverse=True)
     return output
 
 
@@ -48,9 +49,9 @@ def get_rag(prompt: str, filters: List[dict]):
         }
     )
 
-
-    print(config)
-
+    config = {
+        "numberOfResults": 100,
+    }
 
     response = bdaclient.retrieve(
         knowledgeBaseId="06LZWOGIFB",
@@ -98,10 +99,12 @@ def analyze_report(report_text: str):
     # model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
     model_id = "anthropic.claude-3-haiku-20240307-v1:0"
 
+    print(report_text)
+
     native_request = {
         "anthropic_version": "bedrock-2023-05-31",
         "max_tokens": 512,
-        "temperature": 0.2,
+        "temperature": 0.25,
         "messages": [
             {
                 "role": "user",
@@ -112,27 +115,22 @@ def analyze_report(report_text: str):
                             I am analyzing the Environmental Social Governance reports of top tech companies. 
                             I need you to extract some imperative and specific information from this report. 
                             I need each generated value being a perfect representation of its field name given the corresponding constraints. 
-                            ALL VALUES MUST BE NUMBERS WITHOUT COMMAS IN GIVEN UNITS. KEYS THAT CANNOT BE EXTRACTED MUST BE LEFT NULL. 
+                            ALL VALUES MUST BE NUMBERS WITHOUT COMMAS IN GIVEN UNITS. KEYS THAT CANNOT BE EXTRACTED MUST BE LEFT null. 
                             The response must conform to the following JSON format: 
                             {
-                                \"energy_used\": \"number\" // Total energy used in Megawatt hours. 
-                                \"percent_renewable_energy\": \"number\" // Percentage of energy that is generated from renewable sources. 
-                                \"carbon_intensity\": \"number\" // Grams of CO2 equivalent per dollar of gross merchandise sales. 
-                                \"total_water_withdrawn\": \"number\" // Cubic meters of water withdrawn. 
-                                \"total_water_discharged\": \"number\" // Cubic meters of water discharged. 
-                                \"total_water_consumed\": \"number\" // Cubic meters of water consumed. 
-                                \"greenhouse_gas_emissions_scope_1\": \"number\" // Metric tonnes of CO2 equivalent of direct greenhouse emissions that occur from sources that are controlled or owned by an organization. 
-                                \"greenhouse_gas_emissions_scope_2\": \"number\" // Metric tonnes of CO2 equivalent of indirect greenhouse emissions associated with the purchase of electricity, steam, heat. 
-                                \"greenhouse_gas_emissions_scope_3\": \"number\" // Metric tonnes of CO2 equivalent of greenhouse emissions not owned by the reporting company, but that occur in the value chain of the reporting company. 
-                                \"greenhouse_gas_datacenter_total_emissions\": \"number\" // Metric tonnes of CO2 equivalent of greenhouse emissions from data centers. 
-                                \"greenhouse_gas_purchased_goods\": \"number\" // Metric tonnes of CO2 equivalent of greenhouse emissions from purchased goods. 
-                                \"greenhouse_gas_capital_goods\": \"number\" // Metric tonnes of CO2 equivalent of greenhouse emissions from capital goods. 
-                                \"waste_generated\": \"number\" // Metric tonnes of waste generated. 
-                                \"waste_landfilled\": \"number\" // Metric tonnes of waste landfilled. 
-                                \"waste_recycled\": \"number\" // Metric tonnes of waste recycled. 
-                                \"air_emissions\": \"number\" // Metric tonnes of harmful air emissions. 
-                            }. 
-                            
+                                \"greenhouse_gas_emissions\": {\"string]\": []\"number\" } // A list of greenhouse gas emissions, examples include CO2, CH4, N2O, and the corresponding values emitted for the last 5 years. THAT'S FIVE! ONE TWO THREE FOUR FIVE! ANY MORE OR ANY LESS AND I WILL KILL YOU!
+                                \"biggest_climate_contributing_factors\": \"string\" // The biggest climate contributing factors.
+                                \"biggest_places_to_improve\": \"string\" // The biggest places that the company can improve in.
+                                \"score_energy_used\": \"number\" // Score for energy used, 0 to 150. THIS VALUE CANNOT BE NULL.
+                                \"score_greenhouse_gas_emissions_scope_1\": \"number\" // Score for greenhouse gas emissions Scope 1, 0 to 150. THIS VALUE CANNOT BE NULL.
+                                \"score_greenhouse_gas_emissions_scope_2\": \"number\" // Score for greenhouse gas emissions Scope 2, 0 to 150. THIS VALUE CANNOT BE NULL.
+                                \"score_greenhouse_gas_emissions_scope_3\": \"number\" // Score for greenhouse gas emissions Scope 3, 0 to 150. THIS VALUE CANNOT BE NULL. 
+                                \"score_water_withdrawn\": \"number\" // Score for water withdrawn, 0 to 150. THIS VALUE CANNOT BE NULL.
+                                \"score_waste_generated\": \"number\" // Score for waste generated, 0 to 150. THIS VALUE CANNOT BE NULL.
+                            }
+
+                            IF YOU STRAY FROM THIS FORMAT I WILL KILL YOU!
+
                             Here is the report text to analyze:
                         """
                         + report_text,
@@ -144,7 +142,7 @@ def analyze_report(report_text: str):
                 "content": [
                     {
                         "type": "text",
-                        "text": "Here is the generated diff of the markdown document:",
+                        "text": "Here is my analysis of this report in formatted JSON. I UNDERSTAND THAT FAILURE TO CONFORM TO THE GIVEN JSON FORMAT WILL RESULT IN MY DEATH. JSON:",
                     }
                 ],
             },
@@ -156,6 +154,45 @@ def analyze_report(report_text: str):
     model_response = json.loads(response.get("body").read())
     response_text = model_response["content"][0]["text"]
     return response_text
+
+
+def converse_report(report_text: str, chat_history: List[dict]):
+    # model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
+
+    native_request = {
+        "anthropic_version": "bedrock-2023-05-31",
+        "max_tokens": 256,
+        "temperature": 0.5,
+        "system": "You are a environmental social governance report generating agent. I will provide you with a ESG report, and you will provide me with insights and suggestions on how to formulate my own future reports.",
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"""
+                            I am analyzing the Environmental Social Governance reports of top tech companies. 
+                            I have gathered a well composed Environmental Social Governance report, and I would like to have a conversation about it. 
+
+                            Here is the report text to analyze:
+                            {report_text}
+
+                            {chat_history[0]["content"][0]["text"]}
+                        """,
+                    },
+                ],
+            },
+        ]
+        + chat_history[1:],
+    }
+
+    request = json.dumps(native_request)
+    response = bdclient.invoke_model_with_response_stream(
+        modelId=model_id, body=request
+    )
+    processed_stream = parse_stream(response["body"])
+    return processed_stream
 
 
 def update_report(suggestions: str, report_markdown: str):

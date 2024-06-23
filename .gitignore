@@ -5,6 +5,9 @@
 *.metadata.json
 */out/*.txt
 *.pdf
+*/esgs/*
+*/my_file/*
+*.pyc
 
 # dependencies
 /node_modules

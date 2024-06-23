@@ -86,17 +86,30 @@ def preprocess_pdf(pdf_path):
         raise e
 
 
+# if __name__ == "__main__":
+#     prefix = "esgs/"
+
+#     for file in os.listdir(prefix):
+#         metadata_file = f"{prefix}metadata/{file}.metadata.json"
+#         if file.endswith(".pdf"):
+#             if os.path.exists(metadata_file):
+#                 print('skipping: ', file)
+#                 continue
+#             print("processing: ", file)
+#             metadata = preprocess_pdf(f"{prefix}{file}")
+#             metadata["filename"] = file
+#             with open(metadata_file, "w") as f:
+#                 f.write(json.dumps({"metadataAttributes": metadata}, indent=4))
+
+
 if __name__ == "__main__":
     prefix = "esgs/"
+    out_prefix = "esgs/text/"
 
     for file in os.listdir(prefix):
-        metadata_file = f"{prefix}metadata/{file}.metadata.json"
         if file.endswith(".pdf"):
-            if os.path.exists(metadata_file):
-                print('skipping: ', file)
-                continue
             print("processing: ", file)
-            metadata = preprocess_pdf(f"{prefix}{file}")
-            metadata["filename"] = file
-            with open(metadata_file, "w") as f:
-                f.write(json.dumps({"metadataAttributes": metadata}, indent=4))
+            text = extract_text(f"{prefix}{file}")
+            outfile = f"{out_prefix}{file}.txt"
+            with open(outfile, "w") as f:
+                f.write(text)

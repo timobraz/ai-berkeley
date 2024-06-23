@@ -5,6 +5,7 @@ import Radar from "../components/Radar";
 import Chart from "../components/Chart";
 import Loading from "../components/Loading";
 import axios from "axios";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { set } from "mongoose";
 export default function Dashboard() {
@@ -21,12 +22,51 @@ export default function Dashboard() {
     return () => clearTimeout(timer);
   }, []);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     console.log("submit");
     e.preventDefault();
     console.log(message);
-    setMessages((prev) => [...prev, message]);
+    setMessages((prev) => [...prev, message, ""]);
     setMessage("");
+    try {
+      const resp = await fetch(
+        "https://flowing-magpie-sweet.ngrok-free.app/converse_report",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chat_history: [...messages, message].map((message, index) => {
+              const role = index % 2 === 0 ? "user" : "assistant";
+              return { role, content: [{ type: "text", text: message }] };
+            }),
+          }),
+        }
+      );
+      if (resp.body) {
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+
+        const processStream = async ({ done, value }: any) => {
+          if (done) {
+            console.log("Stream ended");
+            return;
+          }
+          // Assuming the value is a chunk of text
+          const text = decoder.decode(value, { stream: true });
+          setMessages((prev) => [
+            ...prev.slice(0, prev.length - 1),
+            prev[prev.length - 1] + text,
+          ]);
+          reader.read().then(processStream);
+        };
+
+        reader.read().then(processStream);
+      }
+    } catch (error) {
+      console.error("Stream error:", error);
+    }
   }
   const data = [3908, 4800, 3800, 4300];
 
@@ -120,20 +160,25 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex flex-1  h-[48rem] sticky top-20 ">
-            <div className=" bg-[#262626]  rounded-md px-8 py-4 flex-col flex justify-between  w-full">
+          <div className="flex flex-1 h-[48rem] overflow-scroll sticky top-20 z-10">
+            <div className=" bg-[#262626]  rounded-md px-8 py-4 flex-col flex justify-between h-max min-h-[48rem] w-full">
               <div className="text-white tracking-wide my-4 ">
-                <h4 className="my-2">Improve your report</h4>
+                <Link href={`https://flowing-magpie-sweet.ngrok-free.app/get_file`} target="_blank" rel="noopener noreferrer"><h4 className="my-2">Report</h4></Link>
                 <div className="text-xl text-white tracking-normal font-bold overflow-auto">
                   {messages.length > 0 ? (
-                    messages.map((message, index) => (
-                      <div
-                        key={index}
-                        className={`my-2 rounded-lg ${index % 2 === 0 ? "text-left ml-auto text-green-300" : "text-right mr-auto text-xl font-light"}`}
-                      >
-                        <p>{message}</p>
-                      </div>
-                    ))
+                    <>
+                      <h2 className="text-green-300">
+                        Analyzing report...
+                      </h2>
+                      {messages.map((message, index) => (
+                        <div
+                          key={index}
+                          className={`my-2 rounded-lg ${index % 2 === 1 ? "text-left ml-auto text-green-300" : "text-right mr-auto text-xl font-light"}`}
+                        >
+                          <p>{message}</p>
+                        </div>
+                      ))}
+                    </>
                   ) : (
                     <h2 className="text-green-300">
                       There are no messages yet. Start chatting!

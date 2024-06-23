@@ -19,7 +19,7 @@ export const Navbar = () => {
             earthlytics.ai
           </Link>
         </div>
-        <div className="flex flex-row gap-[80px]">
+        <div className="flex flex-row gap-[80px] z-0">
           <Link href={"/#generate"} className="text-lg font-bold">
             Generate
           </Link>

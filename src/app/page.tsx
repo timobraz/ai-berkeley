@@ -31,6 +31,15 @@ export default function Home() {
     }
   }
 
+  async function searchCompany() {
+    try {
+      const response = await axios.post(`https://flowing-magpie-sweet.ngrok-free.app/analyze_ticker`, {
+        ticker: company,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div className="inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#B1B1B1_1.5px,transparent_1.5px)] [background-size:48px_48px] min-h-screen snap-y  overflow-y-scroll  snap-mandatory ">
       <div className="px-10 py-28 h-screen snap-start">
@@ -67,14 +76,15 @@ export default function Home() {
             <div className="flex gap-4 items-center justify-between h-14">
               <input
                 type="text"
-                placeholder="company e.g. Qualcomm"
-                className="p-2 px-6 text-xl w-full h-full rounded-md b-2  "
+                content={company} placeholder="company ticker e.g. AAPL"
+                className="p-2 px-6 text-xl w-full h-full rounded-md b-2"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
               />
               <Link
                 href={"/dashboard?ticker=" + company}
                 className="px-10 py-2 font-light text-xl h-full bg-white rounded-md text-center items-center flex justify-center"
+                onClick={() => searchCompany()}
               >
                 Next
               </Link>
