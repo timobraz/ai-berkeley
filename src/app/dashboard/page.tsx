@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import Radar from "../components/Radar";
-export default function dashboard() {
-  const textMessages = [
+export default function Dashboard() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState([
     "Start by reducing carbon footprint, water usage, waste production, and energy usage",
     "Okay thanks, how can I reduce my carbon footprint?",
     "You can reduce your carbon footprint by using renewable energy, reducing waste, and using energy-efficient appliances",
@@ -15,35 +16,22 @@ export default function dashboard() {
     "You're welcome",
     "You're welcome",
     "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-  ];
+  ]);
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    console.log("submit");
+    e.preventDefault();
+    console.log(message);
+    setMessages((prev) => [...prev, message]);
+    setMessage("");
+  }
+
+  const scrollToBottom = () => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  const [message, setMessage] = useState("");
   return (
     <div className="w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px] min-h-screen flex  px-10 gap-8 pt-28 pb-12 ">
       {/* <div className="absolute h-40 w-40 top-1/4 left-1/4 bg-gradient-radial from-teal-400 via-blue-500 to-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-80 animate-blob animation-delay-2000 z-0 animation-move-1"></div>
@@ -82,22 +70,23 @@ export default function dashboard() {
           <div className="text-white tracking-wide ">Chat with buddy</div>
           <div className="text-2xl text-white tracking-normal font-bold overflow-auto">
             <div className="p-4 ">
-              {textMessages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`my-2 p-2 rounded-lg ${index % 2 === 0 ? "text-left ml-auto" : "text-right mr-auto text-xl font-light"}`}
-                >
+              {messages.map((message, index) => (
+                <div key={index} className={`my-2 p-2 rounded-lg ${index % 2 === 0 ? "text-left ml-auto" : "text-right mr-auto text-xl font-light"}`}>
                   <p>{message}</p>
                 </div>
               ))}
             </div>
+            <div ref={scrollRef}></div>
           </div>
-          <div className="rounded-full bg-white w-1/2 bottom-10 items-center p-2 pl-4 self-end my-4 ">
-            <textarea
-              rows={1}
-              placeholder="Type here"
-              className="outline-none resize-none flex items-center justify-center w-full"
-            ></textarea>
+          <div className="rounded-md bg-white w-1/2 bottom-10 items-center p-2 pl-4 self-end my-4 ">
+            <form onSubmit={handleSubmit} className="flex items-center justify-between">
+              <input
+                placeholder="Type here"
+                className="outline-none resize-none flex items-center justify-center w-full"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              ></input>
+            </form>
           </div>
         </div>
       </div>
