@@ -15,6 +15,34 @@ export default function dashboard() {
     "You're welcome",
     "You're welcome",
     "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
+    "You're welcome",
   ];
   return (
     <div className="w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px] min-h-screen flex  px-10 gap-8 pt-28 pb-12 ">
@@ -55,14 +83,21 @@ export default function dashboard() {
           <div className="text-2xl text-white tracking-normal font-bold overflow-auto">
             <div className="p-4 ">
               {textMessages.map((message, index) => (
-                <div key={index} className={`my-2 p-2 rounded-lg ${index % 2 === 0 ? "text-left ml-auto" : "text-right mr-auto text-xl font-light"}`}>
+                <div
+                  key={index}
+                  className={`my-2 p-2 rounded-lg ${index % 2 === 0 ? "text-left ml-auto" : "text-right mr-auto text-xl font-light"}`}
+                >
                   <p>{message}</p>
                 </div>
               ))}
             </div>
           </div>
           <div className="rounded-full bg-white w-1/2 bottom-10 items-center p-2 pl-4 self-end my-4 ">
-            <textarea rows={1} placeholder="Type here" className="outline-none resize-none flex items-center justify-center w-full"></textarea>
+            <textarea
+              rows={1}
+              placeholder="Type here"
+              className="outline-none resize-none flex items-center justify-center w-full"
+            ></textarea>
           </div>
         </div>
       </div>
