@@ -8,6 +8,8 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "green-dots": "url('https://i.ibb.co/fdy1mbD/Group-4.jpg')",
+        dots2: "url('/dots2.png')",
+        dots3: "url('/dots3.png')",
       },
     },
   },
