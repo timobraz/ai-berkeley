@@ -29,16 +29,27 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="h-screen flex px-32 flex-col">
+      <div className="h-screen flex px-32 flex-col gap-8">
         <div className="flex w-full items-center flex-col gap-4">
-          <h1 className="text-7xl  font-medium">Generate Insights With</h1>
-          <h4 className="">Search a company or upload an ESG report</h4>
+          <h1 className="text-7xl  font-normal">Generate Insights With</h1>
+          <h4 className="text-xl text-gray-500 font-medium">Search a company or upload an ESG report</h4>
         </div>
-        <div className="bg-green-dots w-full flex flex-col items-center py-8 rounded-xl">
-          <h1 className="text-white  text-xl">Search a company</h1>
-          <div className="flex gap-4 items-center justify-between">
-            <input type="text" className="p-2 w-[24rem] rounded-lg b-2" />
-            <button className="px-4 py-2 font-light text-2xl">Next</button>
+        <div className="bg-green-dots w-full flex flex-col items-center py-16 rounded-xl">
+          <div className="flex flex-col gap-2 relative -top-4">
+            <h1 className="text-white  text-2xl">Search a company</h1>
+            <div className="flex gap-4 items-center justify-between h-14">
+              <input type="text" className="p-2 px-6 text-xl w-[24rem] h-full rounded-md b-2 outline-black outline-2 outline " />
+              <button className="px-10 py-2 font-light text-xl h-full bg-white rounded-md outline-black outline-2 outline">Next</button>
+            </div>
+          </div>
+        </div>
+        <div className="bg-green-dots w-full flex flex-col items-center py-16 rounded-xl">
+          <div className="flex flex-col gap-2 relative -top-4">
+            <h1 className="text-white  text-2xl">Upload a File</h1>
+            <div className="flex gap-4 items-center justify-between h-14">
+              <input type="text" className="p-2 px-6 text-xl w-[24rem] h-full rounded-md b-2 outline-black outline-2 outline " />
+              <button className="px-10 py-2 font-light text-xl h-full bg-white rounded-md outline-black outline-2 outline">Next</button>
+            </div>
           </div>
         </div>
       </div>
