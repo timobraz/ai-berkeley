@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Markdown from "markdown-to-jsx";
 import { diffLines } from "diff";
 import { useSearchParams } from "next/navigation";
@@ -41,7 +41,7 @@ export default function Upload() {
   }, []);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const [messages, setMessages] = useState<string[]>(["Received company data to generate a report, generate a report?"]);
+  const [messages, setMessages] = useState<string[]>(["Please tell me more information about your company."]);
   const [message, setMessage] = useState("");
   const [description, setDescription] = useState("");
   const [params, setParams] = useState<query>();
@@ -51,6 +51,42 @@ export default function Upload() {
     setDescription(searchParams.get("description") || "");
   }, [searchParams]);
 
+  useEffect(() => {
+    if (!params) return;
+    if (!description) return;
+    async function generate() {
+      const resp = await fetch("https://flowing-magpie-sweet.ngrok-free.app/generate_report", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          description: description,
+          fields: Object.entries(params!).map(([key, value]) => {
+            return { [key]: parseFloat(value) };
+          }),
+        }),
+      });
+      if (resp.body) {
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+
+        const processStream = async ({ done, value }: any) => {
+          if (done) {
+            console.log("Stream ended");
+            return;
+          }
+          // Assuming the value is a chunk of text
+          const text = decoder.decode(value, { stream: true });
+          setMdx((prev) => prev + text);
+          reader.read().then(processStream);
+        };
+
+        reader.read().then(processStream);
+      }
+    }
+    generate();
+  }, [params, description]);
   const [mdx, setMdx] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
