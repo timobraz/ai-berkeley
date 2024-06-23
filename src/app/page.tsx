@@ -31,7 +31,7 @@ export default function Home() {
     }
   }
   return (
-    <div className="inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px] min-h-screen snap-y  overflow-y-scroll  snap-mandatory ">
+    <div className="inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#B1B1B1_1.5px,transparent_1.5px)] [background-size:48px_48px] min-h-screen snap-y  overflow-y-scroll  snap-mandatory ">
       <Navbar></Navbar>
       <div className="px-10 py-28 h-screen snap-start">
         <div className="relative flex  items-center justify-center space-y-5 h-full bg-green-dots rounded-xl">
@@ -82,7 +82,7 @@ export default function Home() {
               {!file ? <IconUpload className="text-primary w-12 h-12" /> : <IconFileAnalytics className="text-primary w-12 h-12" />}
               <h3 className="text-2xl font-bold">{file?.name ?? "File Select"}</h3>
               {!file && <p className=" text-center">Drag and drop a file here or click to select a file from your device.</p>}
-              <input type="file" className="sr-only" onChange={handleChange} />
+              <input type="file" className="sr-only" onChange={handleChange} accept=".pdf, .csv" />
             </label>
             <div className="w-full justify-between my-4 text-white flex">
               <h1 className="text-lg font-semi-bold">Supported Format: .pdf</h1>
