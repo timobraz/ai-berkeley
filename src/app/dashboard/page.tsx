@@ -45,6 +45,7 @@ export default function Dashboard() {
     scrollToBottom();
   }, [messages]);
   const [message, setMessage] = useState("");
+  const data2 = [120, 98, 80, 99, 30, 65];
   return (
     <div>
       {loading ? (
@@ -52,38 +53,19 @@ export default function Dashboard() {
       ) : (
         <div className="w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px] min-h-screen flex  px-10 gap-8 pt-28 pb-12 ">
           <div className="flex flex-col  flex-1 gap-8">
-            <div className=" bg-[#ECECEC] rounded-md h-72 p-10 pl-5 pb-5">
+            <div className=" bg-[#ECECEC] rounded-md h-full p-10 pl-5 pb-5">
               <Chart data={data}></Chart>
             </div>
-            <div className="flex gap-4 h-72">
-              <div className=" bg-dots3 rounded-md  flex-1 h-72 p-5 text-white w-full text-center font-bold">
+            <div className="flex gap-4 h-full bg-red-100">
+              <div className=" bg-dots3 rounded-md  flex-1 h-full p-5 text-white w-full text-center font-bold">
                 Biggest Climate-Contributing Factors
               </div>
               <div className=" bg-green-dots   rounded-md   flex-1 h-72">
-                <Radar></Radar>
-              </div>
-            </div>
-            <div className=" bg-[#ECECEC] rounded-md h-72"></div>
-            <div className="flex gap-4 h-72">
-              <div className=" bg-dots3 rounded-md  flex-1 h-72"></div>
-              <div className=" bg-green-dots   rounded-md   flex-1 h-72">
-                <Radar></Radar>
-              </div>
-            </div>
-            <div className="flex gap-4 h-72">
-              <div className=" bg-dots3 rounded-md  flex-1 h-72"></div>
-              <div className=" bg-green-dots   rounded-md   flex-1 h-72">
-                <Radar></Radar>
-              </div>
-            </div>
-            <div className="flex gap-4 h-72">
-              <div className=" bg-dots3 rounded-md  flex-1 h-72"></div>
-              <div className=" bg-green-dots   rounded-md   flex-1 h-72">
-                <Radar></Radar>
+                <Radar data={data2}></Radar>
               </div>
             </div>
           </div>
-          <div className="flex flex-1  h-[48rem] sticky top-[100px] ">
+          <div className="flex flex-1  h-full sticky top-[100px] ">
             <div className=" bg-[#262626]  rounded-md p-10 flex-col flex justify-between  ">
               <div className="text-white tracking-wide ">Chat with buddy</div>
               <div className="text-2xl text-white tracking-normal font-bold overflow-auto">
