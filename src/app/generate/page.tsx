@@ -1,31 +1,56 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Markdown from "markdown-to-jsx";
-import { diffChars, diffLines } from "diff";
-import axios from "axios";
+import { diffLines } from "diff";
+import { useSearchParams } from "next/navigation";
 import Loading from "../components/Loading";
-
 const one = "beep boop";
 const other = "beep boob blah";
 
 const diff = diffLines(one, other);
-console.log(diff);
+
+interface query {
+  energy_used?: string;
+  percent_renewable_energy?: string;
+  carbon_intensity?: string;
+  total_water_withdrawn?: string;
+  total_water_discharged?: string;
+  total_water_consumed?: string;
+  greenhouse_gas_emissions_scope_1?: string;
+  greenhouse_gas_emissions_scope_2?: string;
+  greenhouse_gas_emissions_scope_3?: string;
+  greenhouse_gas_datacenter_total_emissions?: string;
+  greenhouse_gas_purchased_goods?: string;
+  greenhouse_gas_capital_goods?: string;
+  waste_generated?: string;
+  waste_landfilled?: string;
+  waste_recycled?: string;
+  air_emissions?: string;
+}
 
 export default function Upload() {
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState<string[]>([
-    "Generating your markdown report",
-  ]);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [messages, setMessages] = useState<string[]>(["Received company data to generate a report, generate a report?"]);
   const [message, setMessage] = useState("");
+  const [description, setDescription] = useState("");
+  const [params, setParams] = useState<query>();
+  useEffect(() => {
+    const filteredEntries = Array.from(searchParams).filter(([key, value]) => value !== "" && key !== "description");
+    setParams(Object.fromEntries(filteredEntries) as unknown as query);
+    setDescription(searchParams.get("description") || "");
+  }, [searchParams]);
 
   const [mdx, setMdx] = useState("");
 
@@ -35,31 +60,18 @@ export default function Upload() {
     setMessages((prev) => [...prev, message]);
     setMessage("");
     try {
-      const resp = await fetch(
-        "https://flowing-magpie-sweet.ngrok-free.app/generate_report",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            description:
-              "This is an AI company focused on creating headshots for people using stable diffusion",
-            fields: [
-              {
-                percent_renewable_energy: 80,
-              },
-              {
-                carbon_intensity: 1000,
-              },
-              {
-                total_water_withdrawn: 1000,
-              },
-            ],
+      const resp = await fetch("https://flowing-magpie-sweet.ngrok-free.app/generate_report", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          description: description,
+          fields: Object.entries(params!).map(([key, value]) => {
+            return { [key]: parseFloat(value) };
           }),
-        }
-      );
-
+        }),
+      });
       if (resp.body) {
         const reader = resp.body.getReader();
         const decoder = new TextDecoder("utf-8");
@@ -90,7 +102,6 @@ export default function Upload() {
   }, [messages]);
   return (
     <div>
-      {" "}
       {loading ? (
         <Loading />
       ) : (
@@ -110,9 +121,7 @@ export default function Upload() {
                       </div>
                     ))
                   ) : (
-                    <h2 className="text-green-300">
-                      There are no messages yet. Start chatting!
-                    </h2>
+                    <h2 className="text-green-300">There are no messages yet. Start chatting!</h2>
                   )}
 
                   <div ref={scrollRef}></div>
@@ -120,10 +129,7 @@ export default function Upload() {
               </div>
 
               <div className="rounded-md bg-white  bottom-10 items-center py-2 px-4 pl-4 w-full   mt-4 ">
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex items-center justify-between"
-                >
+                <form onSubmit={handleSubmit} className="flex items-center justify-between">
                   <input
                     placeholder="Type here"
                     className="outline-none resize-none flex items-center justify-center w-full"
