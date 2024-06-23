@@ -24,9 +24,9 @@ export default function Dashboard() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // Simulate a 3 second loading time
+    }, 3000);
 
-    return () => clearTimeout(timer); // Clean up the timer
+    return () => clearTimeout(timer);
   }, []);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -36,6 +36,7 @@ export default function Dashboard() {
     setMessages((prev) => [...prev, message]);
     setMessage("");
   }
+  const data = [3908, 4800, 3800, 4300];
 
   const scrollToBottom = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -52,7 +53,7 @@ export default function Dashboard() {
         <div className="w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px] min-h-screen flex  px-10 gap-8 pt-28 pb-12 ">
           <div className="flex flex-col  flex-1 gap-8">
             <div className=" bg-[#ECECEC] rounded-md h-72 p-10 pl-5 pb-5">
-              <Chart></Chart>
+              <Chart data={data}></Chart>
             </div>
             <div className="flex gap-4 h-72">
               <div className=" bg-dots3 rounded-md  flex-1 h-72 p-5 text-white w-full text-center font-bold">

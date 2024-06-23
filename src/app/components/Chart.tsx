@@ -28,12 +28,32 @@ const data = [
     carbon: 4300,
   },
 ];
-
-export default class Example extends PureComponent {
+interface ExampleProps {
+  data: any[]; // replace any with the type of your data
+}
+export default class Example extends PureComponent<ExampleProps> {
   static demoUrl =
     "https://codesandbox.io/p/sandbox/line-chart-width-xaxis-padding-8v7952";
 
   render() {
+    const data = [
+      {
+        name: "2020",
+        carbon: this.props.data[0],
+      },
+      {
+        name: "2021",
+        carbon: this.props.data[1],
+      },
+      {
+        name: "2022",
+        carbon: this.props.data[2],
+      },
+      {
+        name: "2023",
+        carbon: this.props.data[3],
+      },
+    ];
     return (
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
