@@ -6,11 +6,62 @@ body {
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
-  font-size: 16px;
   height: 100vh;
 }
 
 * {
   box-sizing: border-box;
   font-family: Inter, sans-serif;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h5 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p {
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  background-color: #f4f4f4;
+  padding: 4px;
+  border-radius: 0.5rem;
 }

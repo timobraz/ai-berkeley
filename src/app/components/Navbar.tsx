@@ -20,8 +20,12 @@ export const Navbar = () => {
           </Link>
         </div>
         <div className="flex flex-row gap-[80px]">
-          <h2 className="text-lg font-bold">About</h2>
-          <h2 className="text-lg font-bold">Upload</h2>
+          <Link href="/generate" className="text-lg font-bold">
+            Generate
+          </Link>
+          <Link href={"/#upload"} className="text-lg font-bold">
+            Upload
+          </Link>
         </div>
       </div>
     </nav>

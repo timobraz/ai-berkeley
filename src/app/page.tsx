@@ -84,7 +84,9 @@ export default function Home() {
         </div>
         <div className="bg-dots3 w-full flex flex-col items-center py-14 pb-20 rounded-lg">
           <div className="flex flex-col gap-2 relative -top-4 w-1/2 ">
-            <h1 className="text-white  text-2xl">Upload a File</h1>
+            <h1 className="text-white  text-2xl" id="upload">
+              Upload a File
+            </h1>
             <label
               className={clsx(
                 "flex  flex-col items-center justify-center w-full bg-white border-dashed border-3 py-8 space-y-4 border-primary rounded-xl hover:border-[#81D2FF] cursor-pointer transition duration-200",
