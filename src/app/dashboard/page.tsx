@@ -5,12 +5,13 @@ import Radar from "../components/Radar";
 import Chart from "../components/Chart";
 import Loading from "../components/Loading";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 export default function Dashboard() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [retreived, setRetreived] = useState<any>(null);
-
+  const searchParams = useSearchParams();
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -37,11 +38,25 @@ export default function Dashboard() {
   const [message, setMessage] = useState("");
   const data2 = [120, 98, 80, 99, 30, 65];
   useEffect(() => {
-    axios.get("https://flowing-magpie-sweet.ngrok-free.app/analyze_report").then((res) => {
-      console.log(res.data);
-      const data = JSON.parse(res.data);
-      setRetreived(data);
-    });
+    const ticker = searchParams.get("ticker") || null;
+    if (ticker) {
+      axios
+        .post(`https://flowing-magpie-sweet.ngrok-free.app/get_company`, {
+          ticker,
+        })
+        .then((res) => {
+          console.log(res.data);
+          const length = res.data.length;
+          setRetreived(res.data[length - 1]);
+          console.log(res.data[length - 1]);
+        });
+    } else {
+      axios.get("https://flowing-magpie-sweet.ngrok-free.app/analyze_report").then((res) => {
+        console.log(res.data);
+        const data = JSON.parse(res.data);
+        setRetreived(data);
+      });
+    }
   }, []);
   return (
     <div>
