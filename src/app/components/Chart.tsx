@@ -39,23 +39,23 @@ export default class Example extends PureComponent<ExampleProps> {
     const data = [
       {
         name: "2019",
-        carbon: this.props.data[0],
+        "Greenhouse Gases": this.props.data[0],
       },
       {
         name: "2020",
-        carbon: this.props.data[1],
+        "Greenhouse Gases": this.props.data[1],
       },
       {
         name: "2021",
-        carbon: this.props.data[2],
+        "Greenhouse Gases": this.props.data[2],
       },
       {
         name: "2022",
-        carbon: this.props.data[3],
+        "Greenhouse Gases": this.props.data[3],
       },
       {
         name: "2023",
-        carbon: this.props.data[4],
+        "Greenhouse Gases": this.props.data[4],
       },
     ];
     return (
@@ -78,7 +78,7 @@ export default class Example extends PureComponent<ExampleProps> {
           <Legend />
           <Line
             type="monotone"
-            dataKey="carbon"
+            dataKey="Greenhouse Gases"
             stroke="#8884d8"
             activeDot={{ r: 8 }}
           />
