@@ -5,6 +5,7 @@ import { Navbar } from "./components/Navbar";
 import { IconFileAnalytics, IconUpload } from "@tabler/icons-react";
 import axios from "axios";
 import clsx from "clsx";
+import Link from "next/link";
 
 export default function Home() {
   const [file, setFile] = useState<File>();
@@ -76,9 +77,12 @@ export default function Home() {
                 placeholder="company e.g. Qualcomm"
                 className="p-2 px-6 text-xl w-full h-full rounded-md b-2  "
               />
-              <button className="px-10 py-2 font-light text-xl h-full bg-white rounded-md ">
+              <Link
+                href="/dashboard"
+                className="px-10 py-2 font-light text-xl h-full bg-white rounded-md text-center items-center flex justify-center"
+              >
                 Next
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -119,9 +123,12 @@ export default function Home() {
               <h1 className="text-lg font-semi-bold">Supported Format: .pdf</h1>
               <h1 className="text-lg font-semi-bold">Maximum size: 15 mb</h1>
             </div>
-            <button className="px-10 py-2 font-light text-xl  self-end bg-white rounded-md w-fit h-14">
+            <Link
+              href="/dashboard"
+              className="px-10 py-2 font-light self-end text-xl h-full bg-white rounded-md text-center items-center flex justify-center"
+            >
               Next
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -233,7 +240,7 @@ export default function Home() {
               ></textarea>
             </div>
             <div className="flex justify-end">
-              <div className="bg-dots2 w-full flex flex-col items-center rounded-lg h-1/2 p-6 text-white text-xl gap-5">
+              <div className="bg-dots2 w-full flex flex-col items-center rounded-lg h-1/2 p-6 text-white text-xl gap-5 cursor-pointer">
                 Generate
               </div>
             </div>
