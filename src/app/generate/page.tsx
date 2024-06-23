@@ -40,7 +40,6 @@ export default function Upload() {
     return () => clearTimeout(timer);
   }, []);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
 
   const [messages, setMessages] = useState<string[]>(["Received company data to generate a report, generate a report?"]);
   const [message, setMessage] = useState("");

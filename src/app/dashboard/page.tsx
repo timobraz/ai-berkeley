@@ -65,23 +65,29 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex flex-1  h-full sticky top-[100px] ">
-            <div className=" bg-[#262626]  rounded-md p-10 flex-col flex justify-between  ">
-              <div className="text-white tracking-wide ">Chat with buddy</div>
-              <div className="text-2xl text-white tracking-normal font-bold overflow-auto">
-                <div className="p-4 ">
-                  {messages.map((message, index) => (
-                    <div
-                      key={index}
-                      className={`my-2 p-2 rounded-lg ${index % 2 === 0 ? "text-left ml-auto" : "text-right mr-auto text-xl font-light"}`}
-                    >
-                      <p>{message}</p>
-                    </div>
-                  ))}
+          <div className="flex flex-1  h-[48rem] sticky top-20 ">
+            <div className=" bg-[#262626]  rounded-md px-8 py-4 flex-col flex justify-between  w-full">
+              <div className="text-white tracking-wide my-4 ">
+                <h4 className="my-2">Improve your report</h4>
+                <div className="text-xl text-white tracking-normal font-bold overflow-auto">
+                  {messages.length > 0 ? (
+                    messages.map((message, index) => (
+                      <div
+                        key={index}
+                        className={`my-2 rounded-lg ${index % 2 === 0 ? "text-left ml-auto text-green-300" : "text-right mr-auto text-xl font-light"}`}
+                      >
+                        <p>{message}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <h2 className="text-green-300">There are no messages yet. Start chatting!</h2>
+                  )}
+
+                  <div ref={scrollRef}></div>
                 </div>
-                <div ref={scrollRef}></div>
               </div>
-              <div className="rounded-md bg-white w-1/2 bottom-10 items-center p-2 pl-4 self-end my-4 ">
+
+              <div className="rounded-md bg-white  bottom-10 items-center py-2 px-4 pl-4 w-full   mt-4 ">
                 <form onSubmit={handleSubmit} className="flex items-center justify-between">
                   <input
                     placeholder="Type here"
