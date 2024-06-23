@@ -11,6 +11,8 @@ const config: Config = {
         "green-dots": "url('https://i.ibb.co/fdy1mbD/Group-4.jpg')",
         dots2: "url('/dots2.png')",
         dots3: "url('/dots3.png')",
+        dots4: "url('/dots4.png')",
+        dots5: "url('/dots5.png')",
       },
       borderWidth: {
         "3": "3px",
