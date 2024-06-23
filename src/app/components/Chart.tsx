@@ -38,20 +38,24 @@ export default class Example extends PureComponent<ExampleProps> {
   render() {
     const data = [
       {
-        name: "2020",
+        name: "2029",
         carbon: this.props.data[0],
       },
       {
-        name: "2021",
+        name: "2020",
         carbon: this.props.data[1],
       },
       {
-        name: "2022",
+        name: "2021",
         carbon: this.props.data[2],
       },
       {
-        name: "2023",
+        name: "2022",
         carbon: this.props.data[3],
+      },
+      {
+        name: "2023",
+        carbon: this.props.data[4],
       },
     ];
     return (

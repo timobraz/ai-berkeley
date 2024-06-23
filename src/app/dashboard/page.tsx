@@ -6,6 +6,7 @@ import Chart from "../components/Chart";
 import Loading from "../components/Loading";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import { set } from "mongoose";
 export default function Dashboard() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<string[]>([]);
@@ -36,7 +37,19 @@ export default function Dashboard() {
     scrollToBottom();
   }, [messages]);
   const [message, setMessage] = useState("");
-  const data2 = [120, 98, 80, 99, 30, 65];
+  // const data6 = [
+  //   retreived.score_energy_used,
+  //   retreived.score_greenhouse_gas_emissions_scope_1,
+  //   retreived.score_greenhouse_gas_emissions_scope_2,
+  //   retreived.score_greenhouse_gas_emissions_scope_3,
+  //   retreived.score_water_withdrawn,
+  //   retreived.score_waste_generated,
+  // ];
+
+  const data2 = [120, 98, 110, 120, 98, 110];
+  const [charData, setCharData] = useState<number[]>([]);
+  const [numData, setNumData] = useState<number[]>([]);
+  const [factors, setFactors] = useState<number[]>([]);
   useEffect(() => {
     const ticker = searchParams.get("ticker") || null;
     if (ticker) {
@@ -51,11 +64,39 @@ export default function Dashboard() {
           console.log(res.data[length - 1]);
         });
     } else {
-      axios.get("https://flowing-magpie-sweet.ngrok-free.app/analyze_report").then((res) => {
-        console.log(res.data);
-        const data = JSON.parse(res.data);
-        setRetreived(data);
-      });
+      axios
+        .get("https://flowing-magpie-sweet.ngrok-free.app/analyze_report")
+        .then((res) => {
+          console.log(res.data);
+          const data = JSON.parse(res.data);
+          setRetreived(data);
+          setCharData([
+            data.greenhouse_gas_emissions.CO2[0] +
+              data.greenhouse_gas_emissions.CH4[0] +
+              data.greenhouse_gas_emissions.N2O[0],
+            data.greenhouse_gas_emissions.CO2[1] +
+              data.greenhouse_gas_emissions.CH4[1] +
+              data.greenhouse_gas_emissions.N2O[1],
+            data.greenhouse_gas_emissions.CO2[2] +
+              data.greenhouse_gas_emissions.CH4[2] +
+              data.greenhouse_gas_emissions.N2O[2],
+            data.greenhouse_gas_emissions.CO2[3] +
+              data.greenhouse_gas_emissions.CH4[3] +
+              data.greenhouse_gas_emissions.N2O[3],
+            data.greenhouse_gas_emissions.CO2[4] +
+              data.greenhouse_gas_emissions.CH4[4] +
+              data.greenhouse_gas_emissions.N2O[4],
+          ]);
+          setNumData([
+            data.score_energy_used,
+            data.score_greenhouse_gas_emissions_scope_1,
+            data.score_greenhouse_gas_emissions_scope_2,
+            data.score_greenhouse_gas_emissions_scope_3,
+            data.score_water_withdrawn,
+            data.score_waste_generated,
+          ]);
+          setFactors([data.biggest_climate_contributing_factors]);
+        });
     }
   }, []);
   return (
@@ -66,14 +107,16 @@ export default function Dashboard() {
         <div className="w-full bg-white bg-[radial-gradient(#B1B1B1_1px,transparent_1px)] [background-size:48px_48px] min-h-screen flex  px-10 gap-8 pt-28 pb-12 ">
           <div className="flex flex-col  flex-1 gap-8">
             <div className=" bg-[#ECECEC] rounded-md h-full p-10 pl-5 pb-5">
-              <Chart data={data}></Chart>
+              <Chart data={charData}></Chart>
             </div>
             <div className="flex gap-4 h-full">
               <div className=" bg-dots3 rounded-md  flex-1 h-full p-5 text-white w-full text-center font-bold">
-                Biggest Climate-Contributing Factors
+                <p>Biggest Climate-Contributing Factors</p>
+                <p>{factors}</p>
               </div>
+
               <div className=" bg-green-dots   rounded-md   flex-1 h-full">
-                <Radar data={data2}></Radar>
+                <Radar data={numData}></Radar>
               </div>
             </div>
           </div>
@@ -92,7 +135,9 @@ export default function Dashboard() {
                       </div>
                     ))
                   ) : (
-                    <h2 className="text-green-300">There are no messages yet. Start chatting!</h2>
+                    <h2 className="text-green-300">
+                      There are no messages yet. Start chatting!
+                    </h2>
                   )}
 
                   <div ref={scrollRef}></div>
@@ -100,7 +145,10 @@ export default function Dashboard() {
               </div>
 
               <div className="rounded-md bg-white  bottom-10 items-center py-2 px-4 pl-4 w-full   mt-4 ">
-                <form onSubmit={handleSubmit} className="flex items-center justify-between">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex items-center justify-between"
+                >
                   <input
                     placeholder="Type here"
                     className="outline-none resize-none flex items-center justify-center w-full"
