@@ -4,6 +4,7 @@ import Markdown from "markdown-to-jsx";
 import { diffLines } from "diff";
 import { useSearchParams } from "next/navigation";
 import Loading from "../components/Loading";
+
 const one = "beep boop";
 const other = "beep boob blah";
 
@@ -114,6 +115,9 @@ export default function Upload() {
         const processStream = async ({ done, value }: any) => {
           if (done) {
             console.log("Stream ended");
+            const urlRegex = /https?:\/\/[^\s]+/g;
+            const links = mdx.match(urlRegex);
+            console.log(links);
             return;
           }
           // Assuming the value is a chunk of text
