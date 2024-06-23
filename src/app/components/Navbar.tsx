@@ -20,7 +20,7 @@ export const Navbar = () => {
           </Link>
         </div>
         <div className="flex flex-row gap-[80px]">
-          <Link href="/generate" className="text-lg font-bold">
+          <Link href={"/#generate"} className="text-lg font-bold">
             Generate
           </Link>
           <Link href={"/#upload"} className="text-lg font-bold">

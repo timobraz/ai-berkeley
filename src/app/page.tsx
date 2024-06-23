@@ -8,6 +8,68 @@ import clsx from "clsx";
 import Link from "next/link";
 
 export default function Home() {
+  const [energyUsed, setEnergyUsed] = useState("");
+  function handleEnergyUsedChange(e: any) {
+    setEnergyUsed(e.target.value);
+  }
+  const [percentageGridElectricity, setPercentageGridElectricity] =
+    useState("");
+  function handlePercentageGridElectricityChange(e: any) {
+    setPercentageGridElectricity(e.target.value);
+  }
+  const [percentageRenewable, setPercentageRenewable] = useState("");
+  function handlePercentageRenewableChange(e: any) {
+    setPercentageRenewable(e.target.value);
+  }
+  const [totalWaterWithdrawn, setTotalWaterWithdrawn] = useState("");
+  function handleTotalWaterWithdrawnChange(e: any) {
+    setTotalWaterWithdrawn(e.target.value);
+  }
+  const [totalWaterConsumed, setTotalWaterConsumed] = useState("");
+  function handleTotalWaterConsumedChange(e: any) {
+    setTotalWaterConsumed(e.target.value);
+  }
+  const [wasteGenerated, setWasteGenerated] = useState("");
+  function handleWasteGeneratedChange(e: any) {
+    setWasteGenerated(e.target.value);
+  }
+  const [wasteLandfilled, setWasteLandfilled] = useState("");
+  function handleWasteLandfilledChange(e: any) {
+    setWasteLandfilled(e.target.value);
+  }
+  const [ggeScope1, setGgeScope1] = useState("");
+  function handleGgeScope1Change(e: any) {
+    setGgeScope1(e.target.value);
+  }
+  const [ggeScope2, setGgeScope2] = useState("");
+  function handleGgeScope2Change(e: any) {
+    setGgeScope2(e.target.value);
+  }
+  const [ggeScope3, setGgeScope3] = useState("");
+  function handleGgeScope3Change(e: any) {
+    setGgeScope3(e.target.value);
+  }
+  const [ggeDCTotalEmissions, setGgeDCTotalEmissions] = useState("");
+  function handleGgeDCTotalEmissionsChange(e: any) {
+    setGgeDCTotalEmissions(e.target.value);
+  }
+  const [ggePurchasedGoods, setGgePurchasedGoods] = useState("");
+  function handleGgePurchasedGoodsChange(e: any) {
+    setGgePurchasedGoods(e.target.value);
+  }
+  const [ggeCapitalGoods, setGgeCapitalGoods] = useState("");
+  function handleGgeCapitalGoodsChange(e: any) {
+    setGgeCapitalGoods(e.target.value);
+  }
+  const [airEmissions, setAirEmissions] = useState("");
+  function handleAirEmissionsChange(e: any) {
+    setAirEmissions(e.target.value);
+  }
+  const [description, setDescription] = useState("");
+  function handleDescriptionChange(e: any) {
+    setDescription(e.target.value);
+  }
+
   const [file, setFile] = useState<File>();
   function handleChange(event: any) {
     setFile(event.target.files[0]);
@@ -143,52 +205,82 @@ export default function Home() {
           <div className="bg-dots4 bg-bottom w-full flex flex-col items-center rounded-lg">
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30 rounded-t-md flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">Energy Used</p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handleEnergyUsedChange(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">
                 Percentage Grid Electricity
               </p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handlePercentageGridElectricityChange(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
               {" "}
               <p className="text-white opacity-100 text-xl">
                 Percentage Renewable
               </p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handlePercentageRenewableChange(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">
                 Total Water Withdrawn
               </p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handleTotalWaterWithdrawnChange(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">
                 Total Water Consumed
               </p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handleTotalWaterConsumedChange(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">Waste Generated</p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handleWasteGeneratedChange(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30 rounded-b-md  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">Waste Landfilled</p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handleWasteLandfilledChange(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0 rounded-t-md  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">GGE Scope 1</p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handleGgeScope1Change(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">GGE Scope 2</p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handleGgeScope2Change(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">GGE Scope 3</p>
-              <input className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"></input>
+              <input
+                onChange={(e) => handleGgeScope3Change(e)}
+                className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
+              ></input>
             </div>
           </div>
           <div className="w-full h-full flex flex-col gap-10">
@@ -198,51 +290,58 @@ export default function Home() {
                 <p className="text-white opacity-100 text-xl">
                   GGE DC Total Emissions
                 </p>
-                <textarea
-                  rows="1"
+                <input
+                  onChange={(e) => handleGgeDCTotalEmissionsChange(e)}
                   className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
-                ></textarea>
+                ></input>
               </div>
               <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
                 {" "}
                 <p className="text-white opacity-100 text-xl">
                   GGE Purchased Goods
                 </p>
-                <textarea
-                  rows="1"
+                <input
+                  onChange={(e) => handleGgePurchasedGoodsChange(e)}
                   className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
-                ></textarea>
+                ></input>
               </div>
               <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
                 {" "}
                 <p className="text-white opacity-100 text-xl">
                   GGE Capital Goods
                 </p>
-                <textarea
-                  rows="1"
+                <input
+                  onChange={(e) => handleGgeCapitalGoodsChange(e)}
                   className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
-                ></textarea>
+                ></input>
               </div>
               <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30 rounded-b-md  flex p-5 items-center justify-between">
                 {" "}
                 <p className="text-white opacity-100 text-xl">Air Emissions </p>
-                <textarea
-                  rows="1"
+                <input
+                  onChange={(e) => handleAirEmissionsChange(e)}
                   className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white rounded-b-md"
-                ></textarea>
+                ></input>
               </div>
             </div>
-            <div className="bg-dots3 w-full flex flex-col items-center rounded-lg h-auto p-10 text-white text-xl gap-5">
+            <div
+              className="bg-dots3 w-full flex flex-col items-center rounded-lg h-auto p-10 text-white text-xl gap-5"
+              id="generate"
+            >
               <p>Give a brief description of the company</p>
               <textarea
                 rows="5"
+                onChange={(e) => handleDescriptionChange(e)}
                 className="w-full bg-transparent outline-none resize-none text-white text-xl border-b-2"
               ></textarea>
             </div>
             <div className="flex justify-end">
-              <div className="bg-dots2 w-full flex flex-col items-center rounded-lg h-1/2 p-6 text-white text-xl gap-5 cursor-pointer">
+              <Link
+                href="/generate"
+                className="bg-dots2 w-full flex flex-col items-center rounded-lg h-1/2 p-6 text-white text-xl gap-5 cursor-pointer"
+              >
                 Generate
-              </div>
+              </Link>
             </div>
           </div>
         </div>
