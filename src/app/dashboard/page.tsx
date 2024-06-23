@@ -1,25 +1,15 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import { Navbar } from "../components/Navbar";
+import React, { use, useEffect, useRef, useState } from "react";
 import Radar from "../components/Radar";
 import Chart from "../components/Chart";
 import Loading from "../components/Loading";
+import axios from "axios";
 export default function Dashboard() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState([
-    "Start by reducing carbon footprint, water usage, waste production, and energy usage",
-    "Okay thanks, how can I reduce my carbon footprint?",
-    "You can reduce your carbon footprint by using renewable energy, reducing waste, and using energy-efficient appliances",
-    "Okay, thanks for the information",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-    "You're welcome",
-  ]);
+  const [messages, setMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [retreived, setRetreived] = useState<any>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -46,6 +36,13 @@ export default function Dashboard() {
   }, [messages]);
   const [message, setMessage] = useState("");
   const data2 = [120, 98, 80, 99, 30, 65];
+  useEffect(() => {
+    axios.get("https://flowing-magpie-sweet.ngrok-free.app/analyze_report").then((res) => {
+      console.log(res.data);
+      const data = JSON.parse(res.data);
+      setRetreived(data);
+    });
+  }, []);
   return (
     <div>
       {loading ? (
