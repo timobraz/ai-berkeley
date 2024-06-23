@@ -135,9 +135,9 @@ export default function Home() {
               ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
-              <p className="text-white opacity-100 text-xl">Percentage Grid Electricity (%)</p>
+              <p className="text-white opacity-100 text-xl">Carbon Intensity</p>
               <input
-                name="percentage_grid_electricity"
+                name="carbon_intensity"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
@@ -147,7 +147,7 @@ export default function Home() {
                 Percentage Renewable (%)
               </p>
               <input
-                name="percentage_renewable"
+                name="percent_renewable_energy"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
@@ -186,21 +186,21 @@ export default function Home() {
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0 rounded-t-md  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">GGE Scope 1 (mtCO2e)</p>
               <input
-                name="scope_1"
+                name="greenhouse_gas_emissions_scope_1"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">GGE Scope 2 (mtCO2e)</p>
               <input
-                name="scope_2"
+                name="greenhouse_gas_emissions_scope_2"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">GGE Scope 3 (mtCO2e)</p>
               <input
-                name="scope_3"
+                name="greenhouse_gas_emissions_scope_3"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
@@ -212,7 +212,7 @@ export default function Home() {
                   GGE DC Total Emissions (mtCO2e)
                 </p>
                 <input
-                  name="total_emissions"
+                  name="greenhouse_gas_datacenter_total_emissions"
                   className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
                 ></input>
               </div>
@@ -221,7 +221,7 @@ export default function Home() {
                   GGE Purchased Goods (mtCO2e)
                 </p>
                 <input
-                  name="purchased_goods"
+                  name="greenhouse_gas_purchased_goods"
                   className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
                 ></input>
               </div>
@@ -230,7 +230,7 @@ export default function Home() {
                   GGE Capital Goods (mtCO2e)
                 </p>
                 <input
-                  name="capital_goods"
+                  name="greenhouse_gas_capital_goods"
                   className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
                 ></input>
               </div>

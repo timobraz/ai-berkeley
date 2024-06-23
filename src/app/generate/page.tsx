@@ -30,24 +30,23 @@ interface query {
 }
 
 export default function Upload() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const [messages, setMessages] = useState<string[]>(["Please tell me more information about your company."]);
+  const [messages, setMessages] = useState<string[]>([
+    "Please tell me more information about your company.",
+  ]);
   const [message, setMessage] = useState("");
   const [description, setDescription] = useState("");
   const [params, setParams] = useState<query>();
+  const [mdx, setMdx] = useState("");
+
   useEffect(() => {
-    const filteredEntries = Array.from(searchParams).filter(([key, value]) => value !== "" && key !== "description");
+    const filteredEntries = Array.from(searchParams).filter(
+      ([key, value]) => value !== "" && key !== "description"
+    );
     setParams(Object.fromEntries(filteredEntries) as unknown as query);
     setDescription(searchParams.get("description") || "");
   }, [searchParams]);
@@ -56,18 +55,21 @@ export default function Upload() {
     if (!params) return;
     if (!description) return;
     async function generate() {
-      const resp = await fetch("https://flowing-magpie-sweet.ngrok-free.app/generate_report", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          description: description,
-          fields: Object.entries(params!).map(([key, value]) => {
-            return { [key]: parseFloat(value) };
+      const resp = await fetch(
+        "https://flowing-magpie-sweet.ngrok-free.app/generate_report",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            description: description,
+            fields: Object.entries(params!).map(([key, value]) => {
+              return { [key]: parseFloat(value) };
+            }),
           }),
-        }),
-      });
+        }
+      );
       if (resp.body) {
         const reader = resp.body.getReader();
         const decoder = new TextDecoder("utf-8");
@@ -77,6 +79,7 @@ export default function Upload() {
             console.log("Stream ended");
             return;
           }
+
           // Assuming the value is a chunk of text
           const text = decoder.decode(value, { stream: true });
           setMdx((prev) => prev + text);
@@ -88,26 +91,28 @@ export default function Upload() {
     }
     generate();
   }, [params, description]);
-  const [mdx, setMdx] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!message) return;
     setMessages((prev) => [...prev, message]);
-    setMessage("");
     try {
-      const resp = await fetch("https://flowing-magpie-sweet.ngrok-free.app/generate_report", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          description: description,
-          fields: Object.entries(params!).map(([key, value]) => {
-            return { [key]: parseFloat(value) };
+      const resp = await fetch(
+        "https://flowing-magpie-sweet.ngrok-free.app/update_report",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            suggestions: message,
+            report_markdown: mdx,
           }),
-        }),
-      });
+        }
+      );
+      console.log("MARKDOWN: ", mdx);
+      setMessage("");
+      setMdx("");
       if (resp.body) {
         const reader = resp.body.getReader();
         const decoder = new TextDecoder("utf-8");
@@ -115,9 +120,6 @@ export default function Upload() {
         const processStream = async ({ done, value }: any) => {
           if (done) {
             console.log("Stream ended");
-            const urlRegex = /https?:\/\/[^\s]+/g;
-            const links = mdx.match(urlRegex);
-            console.log(links);
             return;
           }
           // Assuming the value is a chunk of text
@@ -138,7 +140,7 @@ export default function Upload() {
   };
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, mdx]);
   return (
     <div>
       {loading ? (
@@ -160,7 +162,9 @@ export default function Upload() {
                       </div>
                     ))
                   ) : (
-                    <h2 className="text-green-300">There are no messages yet. Start chatting!</h2>
+                    <h2 className="text-green-300">
+                      There are no messages yet. Start chatting!
+                    </h2>
                   )}
 
                   <div ref={scrollRef}></div>
@@ -168,7 +172,10 @@ export default function Upload() {
               </div>
 
               <div className="rounded-md bg-white  bottom-10 items-center py-2 px-4 pl-4 w-full   mt-4 ">
-                <form onSubmit={handleSubmit} className="flex items-center justify-between">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex items-center justify-between"
+                >
                   <input
                     placeholder="Type here"
                     className="outline-none resize-none flex items-center justify-center w-full"
@@ -180,10 +187,43 @@ export default function Upload() {
             </div>
           </div>
           <div className="flex-[2] bg-white ring-1 ring-lime-700 outline-offset-8 p-6 rounded-xl [&>*]:my-4 ">
-            <Markdown>{mdx}</Markdown>
+            <Markdown
+              options={{
+                overrides: {
+                  img: {
+                    component: AsyncImage,
+                  },
+                },
+              }}
+            >
+              {mdx}
+            </Markdown>
           </div>
         </main>
       )}
     </div>
   );
 }
+
+const AsyncImage = ({ src, alt, ...props }: any) => {
+  // State to manage loading status
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => setLoaded(true);
+  }, [src]);
+
+  return (
+    <>
+      {!loaded ? (
+        // Display a placeholder or spinner when the image is loading
+        <div style={{ width: '100%', height: '100%', backgroundColor: '#f0f0f0' }}>Loading...</div>
+      ) : (
+        // Render the image when it's loaded
+        <img src={src} alt={alt} {...props} />
+      )}
+    </>
+  );
+};

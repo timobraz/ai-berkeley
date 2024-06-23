@@ -69,9 +69,9 @@ def generate_image(prompt: str):
             "textToImageParams": {"text": prompt},
             "imageGenerationConfig": {
                 "numberOfImages": 1,
-                "height": 1024,
-                "width": 1024,
-                "cfgScale": 8.0,
+                "height": 512,
+                "width": 512,
+                "cfgScale": 4.0,
                 "seed": 0,
             },
         }
@@ -88,18 +88,16 @@ def generate_image(prompt: str):
     response_body = json.loads(response.get("body").read())
 
     base64_image = response_body.get("images")[0]
-    return base64_image
+    # return base64_image
 
-    # base64_bytes = base64_image.encode("ascii")
-    # image_bytes = base64.b64decode(base64_bytes)
-    # return image_bytes
+    base64_bytes = base64_image.encode("ascii")
+    image_bytes = base64.b64decode(base64_bytes)
+    return image_bytes
 
 
 def analyze_report(report_text: str):
-    # model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
-    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
-
-    print(report_text)
+    model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+    # model_id = "anthropic.claude-3-haiku-20240307-v1:0"
 
     native_request = {
         "anthropic_version": "bedrock-2023-05-31",
@@ -157,8 +155,8 @@ def analyze_report(report_text: str):
 
 
 def converse_report(report_text: str, chat_history: List[dict]):
-    # model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
-    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
+    model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+    # model_id = "anthropic.claude-3-haiku-20240307-v1:0"
 
     native_request = {
         "anthropic_version": "bedrock-2023-05-31",
@@ -196,8 +194,8 @@ def converse_report(report_text: str, chat_history: List[dict]):
 
 
 def update_report(suggestions: str, report_markdown: str):
-    # model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
-    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
+    model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+    # model_id = "anthropic.claude-3-haiku-20240307-v1:0"
 
     native_request = {
         "anthropic_version": "bedrock-2023-05-31",
@@ -212,7 +210,8 @@ def update_report(suggestions: str, report_markdown: str):
                         "text": f"""
                             I am working on an Environmental Social Governance report. 
                             I have generated a markdown document, but I have some new inputs to modify it.
-                            Feel free to include image tags in the markdown document with comprehensive alt text.
+                            Be sure to include image tags in the markdown document with comprehensive alt text.
+                            Include tables and graphs where necessary.
                             Modify the markdown document with the following inputs:
 
                             Here is the markdown document:
@@ -223,11 +222,12 @@ def update_report(suggestions: str, report_markdown: str):
                             Here are the new inputs:
                             {suggestions}
 
-                            Respond with the git style diff of the markdown document, do not repeat the entire document.
+                            Images can be found at the following URLs: https://flowing-magpie-sweet.ngrok-free.app/image/<filename>
+                            FOR IMAGES USE A MARKDOWN IMAGE TAG.
+                            IF YOU STRAY FROM THIS IMAGE FORMAT I WILL KILL YOU!
+                            DO NOT ENCODE NON ASCII CHARACTERS IN A FILENAME OR I WILL KILL YOU!
 
-                            The format of the diff should be as follows:
-                            - old line
-                            + new line
+                            Respond with a new markdown document, with the given suggestions implemented.
                         """,
                     }
                 ],
@@ -237,7 +237,7 @@ def update_report(suggestions: str, report_markdown: str):
                 "content": [
                     {
                         "type": "text",
-                        "text": "Here is the generated git style diff of the markdown document, without repeating the entire document, and without any additional commentary or prefixes or suffixes:",
+                        "text": "Here is the new markdown document, with the given suggestions implemented:",
                     }
                 ],
             },
@@ -274,8 +274,8 @@ def generate_report(description: str, fields: List[dict]):
         ]
     )
 
-    # model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
-    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
+    model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+    # model_id = "anthropic.claude-3-haiku-20240307-v1:0"
 
     native_request = {
         "anthropic_version": "bedrock-2023-05-31",
@@ -288,7 +288,11 @@ def generate_report(description: str, fields: List[dict]):
                     {
                         "type": "text",
                         "text": f"""
-                            You are a environmental social governance report generating agent. I will provide you with a set of search results, these results are fragments of reports that you will mimic in style and content. The user will provide information about their own reporting company, and the search results will be relevant to your task. Using what you have been given, and what you know about environmental social governance reports, generate an environmental social governance report document in markdown format. Make your report as informative and detailed as possible, and include image tags in the markdown document with comprehensive alt text.
+                            You are a environmental social governance report generating agent. 
+                            I will provide you with a set of search results, these results are fragments of reports that you will mimic in style and content. 
+                            The user will provide information about their own reporting company, and the search results will be relevant to your task. 
+                            Using what you have been given, and what you know about environmental social governance reports, generate an environmental social governance report document in markdown format. 
+                            Make your report as informative and detailed as possible, and be sure to include image tags in the markdown document with comprehensive alt text.
 
                             Here is a short description of the reporting company: 
                             {description}
@@ -298,6 +302,11 @@ def generate_report(description: str, fields: List[dict]):
 
                             Here are the search results in numbered order:
                             {retrieval_results}
+
+                            Images can be found at the following URLs: https://flowing-magpie-sweet.ngrok-free.app/image/<filename>
+                            FOR IMAGES USE A MARKDOWN IMAGE TAG.
+                            IF YOU STRAY FROM THIS IMAGE FORMAT I WILL KILL YOU!
+                            DO NOT ENCODE NON ASCII CHARACTERS IN A FILENAME OR I WILL KILL YOU!
                         """,
                     }
                 ],
@@ -307,7 +316,7 @@ def generate_report(description: str, fields: List[dict]):
                 "content": [
                     {
                         "type": "text",
-                        "text": "Here is my Environmental Social Governance Report in markdown format:",
+                        "text": "Here is my Environmental Social Governance Report in markdown format, with correct mark img format:",
                     }
                 ],
             },
@@ -323,31 +332,31 @@ def generate_report(description: str, fields: List[dict]):
 
 
 if __name__ == "__main__":
-    acc = ""
-    for i in generate_report(
-        "I am starting a software as a service buisness in London. I use a lot of energy for AI model training.",
-        [{"revenue": 10000}, {"energy_used": 1000}],
-    ):
-        print(i)
-        acc += i
-    print(acc)
+    # acc = ""
+    # for i in generate_report(
+    #     "I am starting a software as a service buisness in London. I use a lot of energy for AI model training.",
+    #     [{"revenue": 10000}, {"energy_used": 1000}],
+    # ):
+    #     print(i)
+    #     acc += i
+    # print(acc)
 
-    diff = ""
-    for i in update_report(
-        "I need you to include a graph showing the downward trend of air emissions.",
-        acc,
-    ):
-        print(i)
-        diff += i
-    print(diff)
+    # diff = ""
+    # for i in update_report(
+    #     "I need you to include a graph showing the downward trend of air emissions.",
+    #     acc,
+    # ):
+    #     print(i)
+    #     diff += i
+    # print(diff)
 
-    # image_bytes = generate_image(
-    #     "A downward sloping graph showing lower and lower air emissions by a sustainable tech company."
-    # )
-    # with open("image.png", "wb") as f:
-    #     f.write(image_bytes)
+    image_bytes = generate_image(
+        "A downward sloping graph showing lower and lower air emissions by a sustainable tech company."
+    )
+    with open("image.png", "wb") as f:
+        f.write(image_bytes)
 
-    # image = Image.open(io.BytesIO(image_bytes))
-    # image.show()
+    image = Image.open(io.BytesIO(image_bytes))
+    image.show()
 
     # print(analyze_report("text content here, pretend this is a report."))

@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, FileResponse
 from pydantic import BaseModel
 from typing import List, Dict
+from io import BytesIO
 
 from inference import (
     generate_report,
@@ -119,14 +120,19 @@ async def api_update_report(request_body: UpdateReportRequest):
 
 class GenerateImageRequeset(BaseModel):
     description: str
+    echo: str
 
 
-@app.post("/generate_image")
+@app.get("/image/{filename}")
 async def api_generate_image(
-    request_body: GenerateImageRequeset,
+    filename: str,
 ):
-    bedrock_response = generate_image(request_body.description)
-    return {"image": bedrock_response}
+    try:
+        bedrock_response = generate_image(filename)
+        return StreamingResponse(BytesIO(bedrock_response), media_type="image/png")
+    except Exception as e:
+        print(e)
+        return {"error": "image not found"}
 
 
 @app.post("/get_company")
@@ -141,6 +147,12 @@ async def api_get_file(
     request: Request,
 ):
     file_path = f"my_file/{request.client.host}.pdf"
-    response = FileResponse(path=file_path, media_type="application/pdf", filename="report.pdf")
+    response = FileResponse(
+        path=file_path, media_type="application/pdf", filename="report.pdf"
+    )
     response.headers["Content-Disposition"] = "inline"
     return response
+
+
+# gunicorn -w 8 -k uvicorn.workers.UvicornWorker -t 300 index:app
+# ngrok http --domain=flowing-magpie-sweet.ngrok-free.app 8000
