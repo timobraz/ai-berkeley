@@ -150,9 +150,11 @@ export default function Dashboard() {
               <Chart data={charData}></Chart>
             </div>
             <div className="flex gap-4 h-full">
-              <div className=" bg-dots3 rounded-md  flex-1 h-full p-5 text-white w-full text-center font-bold">
-                <p>Biggest Climate-Contributing Factors</p>
-                <p>{factors}</p>
+              <div className=" bg-dots3 rounded-md  flex-1 h-full p-5 text-white w-full text-center font-bold gap-5">
+                <p className="mb-10 mt-10 text-2xl">
+                  Biggest Climate-Contributing Factors
+                </p>
+                <p className="text-xl">{factors}</p>
               </div>
 
               <div className=" bg-green-dots   rounded-md   flex-1 h-full">
