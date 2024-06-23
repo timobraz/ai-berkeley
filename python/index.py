@@ -2,6 +2,9 @@ from fastapi import FastAPI, UploadFile, File
 from pypdf import PdfReader
 from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+
+from inference import generate_report, update_report
 
 app = FastAPI()
 
@@ -36,3 +39,23 @@ async def pdf(
         text += page.extract_text()
     binary_file.close()
     return {"text": text}
+
+
+@app.post("/generate_report")
+async def generate_report(
+    description: str,
+    filters: list,
+):
+    return StreamingResponse(
+        generate_report(description, filters), media_type="text/markdown"
+    )
+
+
+@app.post("/update_report")
+async def update_report(
+    suggestions: str,
+    report_markdown: str,
+):
+    return StreamingResponse(
+        update_report(suggestions, report_markdown), media_type="text/markdown"
+    )
