@@ -142,7 +142,7 @@ export default function Home() {
         <form className="flex flex-row gap-10 mt-4" action="/generate">
           <div className="bg-dots4 bg-bottom w-full flex flex-col items-center rounded-lg">
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30 rounded-t-md flex p-5 items-center justify-between">
-              <p className="text-white opacity-100 text-xl">Energy Used</p>
+              <p className="text-white opacity-100 text-xl">Energy Used (MWh)</p>
               <input
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
                 name="energy_used"
@@ -150,7 +150,7 @@ export default function Home() {
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">
-                Percentage Grid Electricity
+                Percentage Grid Electricity (%)
               </p>
               <input
                 name="percentage_grid_electricity"
@@ -160,7 +160,7 @@ export default function Home() {
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
               {" "}
               <p className="text-white opacity-100 text-xl">
-                Percentage Renewable
+                Percentage Renewable (%)
               </p>
               <input
                 name="percentage_renewable"
@@ -169,7 +169,7 @@ export default function Home() {
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">
-                Total Water Withdrawn
+                Total Water Withdrawn (Cubic Meters)
               </p>
               <input
                 name="total_water_withdrawn"
@@ -178,7 +178,7 @@ export default function Home() {
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
               <p className="text-white opacity-100 text-xl">
-                Total Water Consumed
+                Total Water Consumed (Cubic Meters)
               </p>
               <input
                 name="total_water_consumed"
@@ -186,35 +186,35 @@ export default function Home() {
               ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
-              <p className="text-white opacity-100 text-xl">Waste Generated</p>
+              <p className="text-white opacity-100 text-xl">Waste Generated (Metric Tonnes)</p>
               <input
                 name="waste_generated"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30 rounded-b-md  flex p-5 items-center justify-between">
-              <p className="text-white opacity-100 text-xl">Waste Landfilled</p>
+              <p className="text-white opacity-100 text-xl">Waste Landfilled (Metric Tonnes)</p>
               <input
                 name="waste_landfilled"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0 rounded-t-md  flex p-5 items-center justify-between">
-              <p className="text-white opacity-100 text-xl">GGE Scope 1</p>
+              <p className="text-white opacity-100 text-xl">GGE Scope 1 (mtCO2e)</p>
               <input
                 name="scope_1"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
-              <p className="text-white opacity-100 text-xl">GGE Scope 2</p>
+              <p className="text-white opacity-100 text-xl">GGE Scope 2 (mtCO2e)</p>
               <input
                 name="scope_2"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
               ></input>
             </div>
             <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
-              <p className="text-white opacity-100 text-xl">GGE Scope 3</p>
+              <p className="text-white opacity-100 text-xl">GGE Scope 3 (mtCO2e)</p>
               <input
                 name="scope_3"
                 className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white"
@@ -225,7 +225,7 @@ export default function Home() {
             <div className="bg-dots5 w-full flex flex-col items-center rounded-lg h-fit">
               <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0 flex p-5 items-center justify-between">
                 <p className="text-white opacity-100 text-xl">
-                  GGE DC Total Emissions
+                  GGE DC Total Emissions (mtCO2e)
                 </p>
                 <input
                   name="total_emissions"
@@ -234,7 +234,7 @@ export default function Home() {
               </div>
               <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30  flex p-5 items-center justify-between">
                 <p className="text-white opacity-100 text-xl">
-                  GGE Purchased Goods
+                  GGE Purchased Goods (mtCO2e)
                 </p>
                 <input
                   name="purchased_goods"
@@ -243,7 +243,7 @@ export default function Home() {
               </div>
               <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-0  flex p-5 items-center justify-between">
                 <p className="text-white opacity-100 text-xl">
-                  GGE Capital Goods
+                  GGE Capital Goods (mtCO2e)
                 </p>
                 <input
                   name="capital_goods"
@@ -252,7 +252,7 @@ export default function Home() {
               </div>
               <div className="bg-[#D9D9D9] w-full h-1/7 bg-opacity-30 rounded-b-md  flex p-5 items-center justify-between">
                 {" "}
-                <p className="text-white opacity-100 text-xl">Air Emissions </p>
+                <p className="text-white opacity-100 text-xl">Air Emissions (Metric Tonnes)</p>
                 <input
                   name="air_emissions"
                   className="bg-transparent border-b-2 resize-none items-center flex justify-center text-xl outline-none text-white rounded-b-md"
