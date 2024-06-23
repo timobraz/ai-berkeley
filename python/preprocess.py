@@ -15,7 +15,7 @@ def preprocess_pdf(pdf_path):
 
     native_request = {
         "anthropic_version": "bedrock-2023-05-31",
-        "max_tokens": 256,
+        "max_tokens": 512,
         "temperature": 0.2,
         "messages": [
             {
@@ -27,9 +27,14 @@ def preprocess_pdf(pdf_path):
                             I am analyzing the Environmental Social Governance of top SNP 500 companies. 
                             I need you to extract some imperative and specific information from this report. 
                             I need each generated value being a perfect representation of its field name given the corresponding constraints. 
-                            ALL VALUES MUST BE NUMBERS WITHOUT COMMAS IN GIVEN UNITS, FORMATTED . KEYS THAT CANNOT BE EXTRACTED MUST BE OMITTED WITHOUT PLACEHOLDERS. 
+                            ALL VALUES MUST BE NUMBERS, IN GIVEN UNITS, WITHOUT COMMAS. KEYS THAT CANNOT BE EXTRACTED MUST BE OMITTED WITHOUT PLACEHOLDERS. 
                             The response must conform to the following JSON format: 
                             {
+                                \"name\": \"string\" // Name of the company. 
+                                \"ticker\": \"string\" // Ticker symbol of the company, you maybe derive this from the name and your knewledge of the company. 
+                                \"year\": \"number\" // Year of the report. 
+                                \"description\": \"string\" // Description of the company, you maybe derive this from the name and your knewledge of the company. 
+                                \"revenue\": \"number\" // Total revenue in dollars. IF THIS FIELD CONTAINS A COMMA, I WILL KILL YOU!
                                 \"energy_used\": \"number\" // Total energy used in Megawatt hours. 
                                 \"percent_renewable_energy\": \"number\" // Percentage of energy that is generated from renewable sources. 
                                 \"carbon_intensity\": \"number\" // Grams of CO2 equivalent per dollar of gross merchandise sales. 
@@ -47,6 +52,7 @@ def preprocess_pdf(pdf_path):
                                 \"waste_recycled\": \"number\" // Metric tonnes of waste recycled. 
                                 \"air_emissions\": \"number\" // Metric tonnes of harmful air emissions. 
                             }. 
+
                             Here is the document: 
                         """
                         + text,
@@ -58,7 +64,7 @@ def preprocess_pdf(pdf_path):
                 "content": [
                     {
                         "type": "text",
-                        "text": "Here are my extracted JSON metrics without any further commentary, with null keys omitted, comments omitted:",
+                        "text": "Here are my extracted JSON metrics without any further commentary, with null keys omitted, property names enclosed in double quotes, NO COMMAS WITHIN NUMBERS OR I WILL DIE, and comments omitted:",
                     }
                 ],
             },
@@ -84,12 +90,13 @@ if __name__ == "__main__":
     prefix = "esgs/"
 
     for file in os.listdir(prefix):
-        metadata_file = f"{prefix}{file}.metadata.json"
+        metadata_file = f"{prefix}metadata/{file}.metadata.json"
         if file.endswith(".pdf"):
             if os.path.exists(metadata_file):
                 print('skipping: ', file)
                 continue
-            print('processing: ', file)
+            print("processing: ", file)
             metadata = preprocess_pdf(f"{prefix}{file}")
+            metadata["filename"] = file
             with open(metadata_file, "w") as f:
                 f.write(json.dumps({"metadataAttributes": metadata}, indent=4))
