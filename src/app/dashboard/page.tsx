@@ -56,11 +56,11 @@ export default function Dashboard() {
             <div className=" bg-[#ECECEC] rounded-md h-full p-10 pl-5 pb-5">
               <Chart data={data}></Chart>
             </div>
-            <div className="flex gap-4 h-full bg-red-100">
+            <div className="flex gap-4 h-full">
               <div className=" bg-dots3 rounded-md  flex-1 h-full p-5 text-white w-full text-center font-bold">
                 Biggest Climate-Contributing Factors
               </div>
-              <div className=" bg-green-dots   rounded-md   flex-1 h-72">
+              <div className=" bg-green-dots   rounded-md   flex-1 h-full">
                 <Radar data={data2}></Radar>
               </div>
             </div>
@@ -82,10 +82,7 @@ export default function Dashboard() {
                 <div ref={scrollRef}></div>
               </div>
               <div className="rounded-md bg-white w-1/2 bottom-10 items-center p-2 pl-4 self-end my-4 ">
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex items-center justify-between"
-                >
+                <form onSubmit={handleSubmit} className="flex items-center justify-between">
                   <input
                     placeholder="Type here"
                     className="outline-none resize-none flex items-center justify-center w-full"
